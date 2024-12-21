@@ -36,4 +36,4 @@ O **LibriHub** é uma aplicação CLI desenvolvida para gerenciar um acervo de l
 
 
 ## 🤝 Autor
-André Mattos: <img src="https://img.shields.io/badge/-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></img>
+**André Mattos**: [![LinkedIn](https://img.shields.io/badge/-LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/andrejsmattos)
