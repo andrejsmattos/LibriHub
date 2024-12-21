@@ -3,6 +3,8 @@
 [![Java](https://img.shields.io/badge/Java-17-blue.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Maven](https://img.shields.io/badge/Maven-3.8.6-red.svg)](https://maven.apache.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)](https://www.postgresql.org/)
+
 
 ## 📋 Descrição
 
@@ -21,6 +23,7 @@ O **LibriHub** é uma aplicação CLI desenvolvida para gerenciar um acervo de l
 ![Java](https://img.shields.io/badge/Java-17-blue.svg)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.0-brightgreen.svg)
 ![Maven](https://img.shields.io/badge/Maven-3.8.6-red.svg)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue.svg)
 
 ## 🛠️ Como Utilizar
 
@@ -29,7 +32,7 @@ O **LibriHub** é uma aplicação CLI desenvolvida para gerenciar um acervo de l
    git clone https://github.com/andrejsmattos/librihub
 2. Navegue até o Diretório do Projeto:<pre>cd librihub </pre>
 3. Compile e Execute a Aplicação:<pre>mvn spring-boot:run </pre>
-4. Acesse a Aplicação: A aplicação estará disponível em http://localhost:8080.
+4. Acesse a Aplicação: A aplicação rodará via CLI
 
 
 ## 🤝 Autor
