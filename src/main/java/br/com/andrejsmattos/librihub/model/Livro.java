@@ -10,10 +10,14 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String titulo;
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "autor_id")
     private Autor autor;
+
+    @Enumerated(EnumType.STRING)
     private Idioma idioma;
+
     private Long numeroDownloads;
 
     public Livro() {
@@ -79,7 +83,7 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro: " + titulo +
+        return "Título: " + titulo +
                 "\nAutor: " + autor.getNome() +
                 "\nIdioma: " + idioma.toString() +
                 "\nNúmero de downloads: " + numeroDownloads;

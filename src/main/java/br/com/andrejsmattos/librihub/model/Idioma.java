@@ -6,23 +6,27 @@ public enum Idioma {
     FR("Francês"),
     PT("Português");
 
-    private String idiomaPortuges;
+    private final String idiomaPortugues;
 
-    Idioma(String idiomaPortuges) {
-        this.idiomaPortuges = idiomaPortuges;
+    Idioma(String idiomaPortugues) {
+        this.idiomaPortugues = idiomaPortugues;
     }
 
     public static Idioma fromString(String texto) {
-        for (Idioma idioma: Idioma.values()) {
-            if (idioma.name().equalsIgnoreCase(texto)) {
+        for (Idioma idioma : Idioma.values()) {
+            if (idioma.name().equalsIgnoreCase(texto) || idioma.getIdiomaPortugues().equalsIgnoreCase(texto)) {
                 return idioma;
             }
         }
         throw new IllegalArgumentException("Nenhum idioma encontrado com este nome: " + texto);
     }
 
+    public String getIdiomaPortugues() {
+        return idiomaPortugues;
+    }
+
     @Override
     public String toString() {
-        return idiomaPortuges;
+        return idiomaPortugues;
     }
 }

@@ -10,10 +10,9 @@ import br.com.andrejsmattos.librihub.service.ConsumoApi;
 import br.com.andrejsmattos.librihub.service.ConverteDados;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
+import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
 
 public class Principal {
 
@@ -104,32 +103,44 @@ public class Principal {
                 Livro livro = new Livro();
 
                 if (!dados.getAutores().isEmpty()) {
-                    Autor autor = new Autor();
-                    autor.setNome(dados.getAutores().get(0).getNome());
-                    autor.setAnoNascimento(dados.getAutores().get(0).getAnoNascimento());
-                    autor.setAnoFalecimento(dados.getAutores().get(0).getAnoFalecimento());
-                    autor.setLivros(List.of(livro));
-                    autor = autorRepository.save(autor);
-                    livro.setAutor(autor);
+                    Autor autorExistente = autorRepository.findByNomeAndAnoNascimentoAndAnoFalecimento(
+                            dados.getAutores().get(0).getNome(),
+                            dados.getAutores().get(0).getAnoNascimento(),
+                            dados.getAutores().get(0).getAnoFalecimento()
+                    );
+
+                    if (autorExistente != null) {
+                        livro.setAutor(autorExistente);
+                    } else {
+                        Autor autor = new Autor();
+                        autor.setNome(dados.getAutores().get(0).getNome());
+                        autor.setAnoNascimento(dados.getAutores().get(0).getAnoNascimento());
+                        autor.setAnoFalecimento(dados.getAutores().get(0).getAnoFalecimento());
+                        autor.setLivros(List.of(livro));
+                        autor = autorRepository.save(autor);
+                        livro.setAutor(autor);
+                    }
                 } else {
                     livro.setAutor(null);
                 }
 
                 livro.setTitulo(dados.getTitulo());
-                livro.setIdioma(Idioma.valueOf(dados.getIdiomas().isEmpty() ? "N/A" : dados.getIdiomas().get(0)));
+                livro.setIdioma(Idioma.fromString(dados.getIdiomas().isEmpty() ? "N/A" : dados.getIdiomas().get(0)));
                 livro.setNumeroDownloads(dados.getNumeroDownloads());
 
                 livroRepository.save(livro);
-                System.out.println("\n" + dados);
+                System.out.println("\nLivro cadastrado com sucesso!");
+                System.out.println("------------------------------");
+                System.out.println(livro);
 
-                System.out.println("\nDeseja cadastrar outro livro? (S/N)");
+                System.out.println("\nDeseja tentar cadastra outro livro? (S/N)");
                 cadastrarNovo = sc.nextLine();
             }
         }
     }
 
     private DadosLivro getDadosLivro() {
-        System.out.println("\nDigite o título do livro para busca: ");
+        System.out.println("\nDigite o título do livro para o cadastro: ");
         var nomeLivro = sc.nextLine();
         var json = consumo.obterDados(ENDERECO + nomeLivro.toLowerCase().replace(" ", "+"));
         DadosLivro dados = conversor.obterDados(json, DadosLivro.class);
@@ -143,7 +154,7 @@ public class Principal {
     private void listarLivros() {
         livros = livroRepository.findAll();
         livros.stream()
-                .sorted(Comparator.comparing(Livro::getTitulo))
+                .sorted(Comparator.comparing(Livro::getTitulo, Comparator.nullsLast(Comparator.naturalOrder())))
                 .forEach(livro -> {
                     System.out.println();
                     System.out.println(livro);
@@ -183,13 +194,13 @@ public class Principal {
 
     private void listarLivrosDeUmIdioma() {
         System.out.println("""
-            Digite o idioma para realizar a busca: 
+            Digite o idioma para realizar a busca:
             es - Espanhol
             en - Inglês
             fr - Francês
             pt - Português""");
         var idiomaBuscado = sc.nextLine();
-        Idioma idioma = Idioma.valueOf(idiomaBuscado.toUpperCase());
+        Idioma idioma = Idioma.fromString(idiomaBuscado);
         var listagemDeLivrosNoIdiomaBuscado = livroRepository.findByIdioma(idioma);
 
         if (listagemDeLivrosNoIdiomaBuscado == null || listagemDeLivrosNoIdiomaBuscado.isEmpty()) {
